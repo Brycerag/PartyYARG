@@ -146,7 +146,8 @@ namespace YARG.Helpers
             string settingsPath = Path.Join(LauncherPath, "settings.json");
             if (!File.Exists(settingsPath))
             {
-                YargLogger.LogWarning("Failed to find launcher settings file. Game is most likely running without the launcher.");
+                // PartyYARG runs standalone without the YARC Launcher — this is expected
+                YargLogger.LogDebug("No YARC Launcher settings found; running standalone (expected for PartyYARG).");
                 return (null, null);
             }
 

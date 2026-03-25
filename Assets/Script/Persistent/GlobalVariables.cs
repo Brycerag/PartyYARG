@@ -26,7 +26,8 @@ namespace YARG
         Menu,
         Gameplay,
         Calibration,
-        Score
+        Score,
+        ReadyUp
     }
 
     [DefaultExecutionOrder(-5000)]

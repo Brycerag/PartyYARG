@@ -407,10 +407,12 @@ namespace YARG.Menu.ScoreScreen
                         if (GlobalVariables.State.PlayingAShow &&
                             GlobalVariables.State.ShowIndex < GlobalVariables.State.ShowSongs.Count)
                         {
-                            // Reset CurrentSong and launch back into the Gameplay scene
+                            // Set CurrentSong to the next song, then go to the ready-up
+                            // interstitial so players and the live band can confirm ready
+                            // before gameplay starts.
                             GlobalVariables.State.CurrentSong =
                                 GlobalVariables.State.ShowSongs[GlobalVariables.State.ShowIndex];
-                            GlobalVariables.Instance.LoadScene(SceneIndex.Gameplay);
+                            GlobalVariables.Instance.LoadScene(SceneIndex.ReadyUp);
                         }
                         else
                         {

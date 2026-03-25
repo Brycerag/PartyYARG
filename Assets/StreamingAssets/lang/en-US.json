@@ -224,9 +224,9 @@
             "DontShowAgain": "Don't Show Again",
 
             "AntiPiracy": {
-                "Title": "YARG Anti-Piracy Statement",
-                "Description": "<b>YARG stands firmly against all forms of piracy.</b> We neither support nor endorse piracy, as it is a violation of copyright law with serious legal consequences. Our platform's importable content—designed for creators to share their work and for educational purposes—does not justify or excuse piracy.\n\nYARG itself <b>does not</b> use any ripped/pirated assets or music and never will. By using YARG, users agree not to promote or endorse piracy in any way through our platform. Upholding these principles ensures a community that respects copyright, creativity, and legal standards.\n\nYARG stands for \"Yet Another Rhythm Game\" and NOT for pirates.",
-                "Confirm": "I Understand"
+                "Title": "Welcome to PartyYARG",
+                "Description": "<b>PartyYARG is a live show synchronization platform for performing bands.</b> It is designed to run alongside a live performance, synchronizing in-game charts with real instruments via MIDI, OSC, and TCP.\n\nThis software is intended for use by licensed performers with their own original music or music for which they hold appropriate performance rights. <b>Always ensure you have the rights to perform and display any content used in your show.</b>\n\nFor setup instructions, MIDI/OSC configuration, and show management, refer to the PartyYARG documentation or contact your show coordinator.",
+                "Confirm": "Let's Rock!"
             },
             "BadSongs": {
                 "Title": "Some Songs Could Not Be Scanned",
@@ -474,6 +474,14 @@
             "ShowAdvanced": "Show Advanced",
             "HideAdvanced": "Hide Advanced",
             "EndSetlistEarly" : "End Setlist"
+        },
+        "ReadyUp" : {
+            "ToggleReady"  : "Ready",
+            "ForceStart"   : "Force Start",
+            "BandReady"    : "Band Ready!",
+            "BandWaiting"  : "Waiting for Band...",
+            "Waiting"      : "Waiting for everyone...",
+            "AllReady"     : "All Ready!"
         },
         "Settings": {
             "ShowAdvanced": "Show Advanced",
