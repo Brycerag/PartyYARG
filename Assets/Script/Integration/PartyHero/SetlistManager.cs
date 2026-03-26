@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using YARG;
@@ -36,6 +37,14 @@ namespace YARG.Integration.PartyHero
             }
         }
 
+        // ── Static show-lifecycle events ──────────────────────────────────────
+
+        /// <summary>Fired when a setlist is activated via <see cref="ActivateSetlist"/>.</summary>
+        public static event Action<ShowSetlist> OnShowActivated;
+
+        /// <summary>Fired when the show reaches its end (last entry played or ShowEnd entry reached).</summary>
+        public static event Action OnShowEnded;
+
         protected override void SingletonAwake() { }
         protected override void SingletonDestroy() { }
 
@@ -63,6 +72,8 @@ namespace YARG.Integration.PartyHero
             YargLogger.LogFormatInfo<string, int>(
                 "[PartyHero Setlist] Show activated: \"{0}\" — {1} total entries.",
                 setlist.Name, setlist.Entries.Count);
+
+            OnShowActivated?.Invoke(setlist);
         }
 
         /// <summary>
@@ -128,6 +139,7 @@ namespace YARG.Integration.PartyHero
             YargLogger.LogInfo("[PartyHero Setlist] Show complete — returning to ShowEnd screen.");
             GlobalVariables.State.PlayingAShow = false;
             ActiveSetlist = null;
+            OnShowEnded?.Invoke();
             return SceneIndex.ShowEnd;
         }
     }

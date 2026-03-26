@@ -888,7 +888,8 @@
             "LightingPeripherals": "Lighting Peripherals",
             "Debug": "Debug and Developer",
             "FileManagement": "File Management",
-            "Experimental": "Experimental"
+            "Experimental": "Experimental",
+            "PartyYARG": "PartyYARG"
         },
         "Header": {
             "Other": "Other",
@@ -922,7 +923,12 @@
             "HUD": "HUD",
             "Gameplay": "Gameplay",
             "OutputConfiguration": "Output Configuration",
-            "Accessibility": "Accessibility"
+            "Accessibility": "Accessibility",
+            "MidiInput": "MIDI Input",
+            "OscTcpInput": "OSC / TCP Input",
+            "OscOutput": "OSC Output",
+            "MidiOutput": "MIDI Output",
+            "PartyDevKeys": "Dev Keys"
         },
         "Button": {
             "CopyCurrentSongJsonFilePath": "Copy Current Song Json File Path",
@@ -1639,6 +1645,108 @@
 			"RockMeterPresetContainer" : "Rock Meter Presets"
         },
         "PresetSetting": {
+            "PartyYARG": {
+                "MidiEnabled": {
+                    "Name": "MIDI Input Enabled",
+                    "Description": "Open a MIDI input device to receive Band Ready and Force Next triggers from hardware."
+                },
+                "MidiDeviceName": {
+                    "Name": "MIDI Input Device",
+                    "Description": "Partial name of the MIDI input device to open. Empty = first available."
+                },
+                "MidiBandReadyNote": {
+                    "Name": "Band Ready Note",
+                    "Description": "MIDI note number that signals the band is ready. Default: 60 (C4)."
+                },
+                "MidiForceNextNote": {
+                    "Name": "Force Next Note",
+                    "Description": "MIDI note number that advances the show state. Default: 61 (C#4)."
+                },
+                "MidiPlayerReadyNote": {
+                    "Name": "Player Ready Note",
+                    "Description": "MIDI note number that toggles a player ready state. Default: 62 (D4)."
+                },
+                "OscEnabled": {
+                    "Name": "OSC Input Enabled",
+                    "Description": "Listen for OSC (Open Sound Control) UDP messages from a DAW or stage controller."
+                },
+                "OscPort": {
+                    "Name": "OSC Input Port",
+                    "Description": "UDP port to listen on for incoming OSC messages. Default: 8000."
+                },
+                "TcpEnabled": {
+                    "Name": "TCP Server Enabled",
+                    "Description": "Accept newline-delimited text commands over TCP."
+                },
+                "TcpPort": {
+                    "Name": "TCP Port",
+                    "Description": "TCP port to listen on for incoming commands. Default: 9000."
+                },
+                "OscOutputEnabled": {
+                    "Name": "OSC Output Enabled",
+                    "Description": "Send OSC messages to a DAW when show state changes (song start, end, breaks, etc.)."
+                },
+                "OscOutputHost": {
+                    "Name": "OSC Output Host",
+                    "Description": "IP address of the DAW receiving outgoing OSC messages. Default: 127.0.0.1 (same machine)."
+                },
+                "OscOutputPort": {
+                    "Name": "OSC Output Port",
+                    "Description": "UDP port to send outgoing OSC messages to. Default: 9001."
+                },
+                "MidiOutputEnabled": {
+                    "Name": "MIDI Output Enabled",
+                    "Description": "Send MIDI note pulses to a DAW or device when show state changes."
+                },
+                "MidiOutputDeviceName": {
+                    "Name": "MIDI Output Device",
+                    "Description": "Partial name of the MIDI output device. Empty = first available."
+                },
+                "MidiOutputChannel": {
+                    "Name": "MIDI Output Channel",
+                    "Description": "MIDI channel (1-16) for all outgoing event notes. Default: 1."
+                },
+                "MidiNoteSongStart": {
+                    "Name": "Note: Song Start",
+                    "Description": "MIDI note fired at highway t=0. Use this to trigger Ableton transport. -1 = disabled."
+                },
+                "MidiNoteSongReadyUp": {
+                    "Name": "Note: Song Ready Up",
+                    "Description": "MIDI note fired when the ready-up screen loads. -1 = disabled."
+                },
+                "MidiNoteSongEnd": {
+                    "Name": "Note: Song End",
+                    "Description": "MIDI note fired when the score screen loads. -1 = disabled."
+                },
+                "MidiNoteShowStart": {
+                    "Name": "Note: Show Start",
+                    "Description": "MIDI note fired when a setlist show is activated. -1 = disabled."
+                },
+                "MidiNoteShowEnd": {
+                    "Name": "Note: Show End",
+                    "Description": "MIDI note fired when the show ends. -1 = disabled."
+                },
+                "MidiNotePause": {
+                    "Name": "Note: Pause",
+                    "Description": "MIDI note fired when the game is paused. -1 = disabled."
+                },
+                "MidiNoteResume": {
+                    "Name": "Note: Resume",
+                    "Description": "MIDI note fired when the game resumes from pause. -1 = disabled."
+                },
+                "MidiNoteBreakStart": {
+                    "Name": "Note: Break Start",
+                    "Description": "MIDI note fired when a set break begins. -1 = disabled."
+                },
+                "MidiNoteSwapStart": {
+                    "Name": "Note: Swap Start",
+                    "Description": "MIDI note fired when a player swap screen appears. -1 = disabled."
+                },
+                "EnableDevKeys": {
+                    "Name": "Dev Key Shortcuts",
+                    "Description": "F9=Band Ready, F10=Player Ready Toggle, F11=Force Next. Editor/nightly builds only."
+                }
+            },
             "CameraPreset": {
                 "CurveFactor": {
                     "Name": "Curve Factor",

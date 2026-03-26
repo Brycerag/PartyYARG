@@ -64,7 +64,8 @@ namespace YARG.Menu.SetBreak
 
         private void HandleForceState(string state)
         {
-            if (state.Equals("END_BREAK", StringComparison.OrdinalIgnoreCase))
+            if (state.Equals("END_BREAK", StringComparison.OrdinalIgnoreCase) ||
+                state.Equals("Next",      StringComparison.OrdinalIgnoreCase))
                 EndBreak();
         }
 

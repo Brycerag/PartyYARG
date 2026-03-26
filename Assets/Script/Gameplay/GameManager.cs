@@ -197,6 +197,7 @@ namespace YARG.Gameplay
 
             Navigator.Instance.PopAllSchemes();
             GameStateFetcher.SetSongEntry(Song);
+            GameStateFetcher.SyncTimeReceived += OnDawSyncTime;
 
             if (Song is null)
             {
@@ -219,9 +220,23 @@ namespace YARG.Gameplay
             _frameTimes = new List<double>();
         }
 
+        /// <summary>
+        /// Called when Ableton/AbleSet echoes its transport position back after receiving
+        /// our /song/start trigger.  Seeking to the DAW's declared position corrects for
+        /// any startup jitter and keeps the highway in lock-step with the band's DAW.
+        /// delayTime=0 means the seek is applied this frame with no audio fade delay.
+        /// </summary>
+        private void OnDawSyncTime(double seconds)
+        {
+            if (!IsSongStarted) return;
+            YargLogger.LogFormatInfo<double>("[PartyHero] DAW sync seek to {0:F4}s", seconds);
+            SetSongTime(seconds, 0.0);
+        }
+
         private void OnDestroy()
         {
             YargLogger.LogInfo("Exiting song");
+            GameStateFetcher.SyncTimeReceived -= OnDawSyncTime;
 
             if (Navigator.Instance != null)
             {

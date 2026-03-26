@@ -60,6 +60,57 @@ namespace YARG.Integration.PartyHero
         /// <summary>OSC address for the "player ready toggle" message.</summary>
         public string OscPlayerReadyAddress = "/partyhero/player_ready";
 
+        /// <summary>
+        /// Inbound OSC address sent by the DAW (e.g. Ableton/AbleSet) in reply to a
+        /// /partyyarg/song/start trigger.  The first argument must be a float representing
+        /// the DAW's current transport position in seconds.  On receipt the game will
+        /// immediately seek its highway to that position, aligning with the DAW clock.
+        /// Set empty to disable DAW-sync seeks.
+        /// </summary>
+        public string OscSyncAddress = "/partyyarg/sync/time";
+
+        // ── OSC Output (game → DAW) ───────────────────────────────────────
+        /// <summary>Whether to send outgoing OSC messages to a DAW on state changes.</summary>
+        public bool OscOutputEnabled = false;
+
+        /// <summary>Destination IP or hostname for outgoing OSC messages.</summary>
+        public string OscOutputHost = "127.0.0.1";
+
+        /// <summary>Destination UDP port for outgoing OSC messages.</summary>
+        public int OscOutputPort = 9001;
+
+        // OSC output addresses (configurable to match whatever the DAW expects)
+        public string OscShowStartAddress    = "/partyyarg/show/start";
+        public string OscShowEndAddress      = "/partyyarg/show/end";
+        public string OscSongReadyUpAddress  = "/partyyarg/song/readyup";
+        public string OscSongStartAddress    = "/partyyarg/song/start";
+        public string OscSongEndAddress      = "/partyyarg/song/end";
+        public string OscPauseAddress        = "/partyyarg/pause";
+        public string OscResumeAddress       = "/partyyarg/resume";
+        public string OscBreakStartAddress   = "/partyyarg/break/start";
+        public string OscSwapStartAddress    = "/partyyarg/swap/start";
+
+        // ── MIDI Output (game → DAW) ──────────────────────────────────────
+        /// <summary>Whether to send MIDI note triggers to a DAW on state changes.</summary>
+        public bool MidiOutputEnabled = false;
+
+        /// <summary>Partial name match for the preferred MIDI output device. Empty = first available.</summary>
+        public string MidiOutputDeviceName = "";
+
+        /// <summary>MIDI channel (1–16) used for all outgoing event notes.</summary>
+        public int MidiOutputChannel = 1;
+
+        // Note numbers for each event. Set to -1 to disable that event's MIDI trigger.
+        public int MidiNoteShowStart   = 48;   // C3
+        public int MidiNoteShowEnd     = 49;   // C#3
+        public int MidiNoteSongReadyUp = 50;   // D3
+        public int MidiNoteSongStart   = 51;   // D#3
+        public int MidiNoteSongEnd     = 52;   // E3
+        public int MidiNotePause       = 53;   // F3
+        public int MidiNoteResume      = 54;   // F#3
+        public int MidiNoteBreakStart  = 55;   // G3
+        public int MidiNoteSwapStart   = 56;   // G#3
+
         // ── Development / Testing ─────────────────────────────────────────
         /// <summary>
         /// When true, keyboard shortcuts are active for simulating triggers without hardware.

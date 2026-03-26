@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using YARG.Core.Logging;
+using YARG.Integration;
 
 namespace YARG.Integration.PartyHero
 {
@@ -80,6 +81,7 @@ namespace YARG.Integration.PartyHero
             StopListeners();
             CurrentSettings = PartyHeroSettings.Load();
             StartListeners();
+            DawBridge.Instance?.ReloadSettings();
             YargLogger.LogInfo("[PartyHero] Settings reloaded.");
         }
 
@@ -181,6 +183,25 @@ namespace YARG.Integration.PartyHero
                 string stateName = args.Length > 0 ? args[0]?.ToString() : "Next";
                 YargLogger.LogFormatInfo("[PartyHero OSC] Force state: {0}", stateName);
                 OnForceState?.Invoke(stateName ?? "Next");
+            }
+            else if (!string.IsNullOrEmpty(cfg.OscSyncAddress) &&
+                     string.Equals(address, cfg.OscSyncAddress, StringComparison.OrdinalIgnoreCase))
+            {
+                // DAW replied to our /song/start with its current transport position.
+                // Parse the first argument as a float (seconds) and relay as a sync event.
+                double seconds = 0.0;
+                if (args.Length > 0)
+                {
+                    seconds = args[0] switch
+                    {
+                        float  f => f,
+                        int    i => i,
+                        double d => d,
+                        _        => 0.0,
+                    };
+                }
+                YargLogger.LogFormatInfo<double>("[PartyHero OSC] Sync time received: {0}s", seconds);
+                GameStateFetcher.SetSyncTime(seconds);
             }
         }
 

@@ -79,6 +79,9 @@ namespace YARG.Menu.ScoreScreen
 
             SetNavigationScheme();
 
+            if (GlobalVariables.State.PlayingAShow)
+                PartyHeroController.OnForceState += HandleForceState;
+
             if (GlobalVariables.State.ScoreScreenStats is null)
             {
                 YargLogger.LogError("Score screen stats was null!");
@@ -146,6 +149,8 @@ namespace YARG.Menu.ScoreScreen
 
         private void OnDisable()
         {
+            PartyHeroController.OnForceState -= HandleForceState;
+
             MusicLibraryMenu.CurrentlyPlaying = GlobalVariables.State.CurrentSong;
             if (!GlobalVariables.State.PlayingAShow && !_restartingSong)
             {
@@ -158,6 +163,36 @@ namespace YARG.Menu.ScoreScreen
             }
 
             Navigator.Instance.PopScheme();
+        }
+
+        // ── PartyHero show-mode force advance ─────────────────────────────
+
+        private void HandleForceState(string state)
+        {
+            if (!state.Equals("Next", StringComparison.OrdinalIgnoreCase)) return;
+            if (!GlobalVariables.State.PlayingAShow || _analyzingReplay) return;
+
+            SceneIndex nextScene;
+            if (SetlistManager.Instance != null && SetlistManager.Instance.IsActive)
+            {
+                nextScene = SetlistManager.Instance.Advance();
+            }
+            else
+            {
+                GlobalVariables.State.ShowIndex++;
+                if (GlobalVariables.State.ShowIndex < GlobalVariables.State.ShowSongs.Count)
+                {
+                    GlobalVariables.State.CurrentSong =
+                        GlobalVariables.State.ShowSongs[GlobalVariables.State.ShowIndex];
+                    nextScene = SceneIndex.ReadyUp;
+                }
+                else
+                {
+                    GlobalVariables.State.PlayingAShow = false;
+                    nextScene = SceneIndex.Menu;
+                }
+            }
+            GlobalVariables.Instance.LoadScene(nextScene);
         }
 
         private void CreateScoreCards(ScoreScreenStats scoreScreenStats)

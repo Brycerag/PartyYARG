@@ -40,7 +40,8 @@ namespace YARG.Menu.WaitingForSwap
 
         private void HandleForceState(string state)
         {
-            if (state.Equals("SWAP_DONE", StringComparison.OrdinalIgnoreCase))
+            if (state.Equals("SWAP_DONE", StringComparison.OrdinalIgnoreCase) ||
+                state.Equals("Next",      StringComparison.OrdinalIgnoreCase))
                 ConfirmSwap();
         }
 

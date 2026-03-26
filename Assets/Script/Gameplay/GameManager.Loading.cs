@@ -17,6 +17,7 @@ using YARG.Playback;
 using YARG.Player;
 using YARG.Scores;
 using YARG.Settings;
+using YARG.Integration;
 using YARG.Song;
 
 namespace YARG.Gameplay
@@ -256,6 +257,7 @@ namespace YARG.Gameplay
             enabled = true;
             IsSongStarted = true;
             _songStarted?.Invoke();
+            GameStateFetcher.SetSongStarted();
         }
 
         private bool LoadReplay()

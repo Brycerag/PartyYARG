@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using YARG.Core.Logging;
 
@@ -65,6 +66,25 @@ namespace YARG.Integration.PartyHero
         private bool _disposed;
 
         // ── Public API ────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Returns the names of all currently connected MIDI input devices.
+        /// Returns an empty list on non-Windows or if none are found.
+        /// </summary>
+        public static List<string> GetDeviceNames()
+        {
+            var names = new List<string>();
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            uint count = midiInGetNumDevs();
+            for (uint i = 0; i < count; i++)
+            {
+                var caps = new MIDIINCAPS();
+                if (midiInGetDevCapsW(i, ref caps, (uint)Marshal.SizeOf<MIDIINCAPS>()) == 0)
+                    names.Add(caps.szPname);
+            }
+#endif
+            return names;
+        }
 
         /// <summary>
         /// Opens a MIDI input device and begins receiving messages.
