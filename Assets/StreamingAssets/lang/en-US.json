@@ -1592,6 +1592,14 @@
                 "Name": "Wait For Song Videos When Seeking",
                 "Description": "Waits for a song-specific video background to finish seeking when restarting/changing sections in practice or seeking a replay."
             },
+            "LiveVideoInputEnabled": {
+                "Name": "Live Video Input",
+                "Description": "Use a live capture device (webcam, USB video interface, OBS Virtual Camera, etc.) as the gameplay background instead of a venue file."
+            },
+            "LiveVideoDeviceName": {
+                "Name": "Live Video Device",
+                "Description": "The capture device to use for Live Video Input. Empty = first available device. Partial name matching is supported."
+            },
             "WrapAroundNavigation": {
                 "Name": "Wrap-Around Navigation",
                 "Description": "Allow menus to jump to the bottom of a list when scrolling past the top, or jump to the top of a list when scrolling past the bottom."

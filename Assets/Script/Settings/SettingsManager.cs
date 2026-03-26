@@ -42,6 +42,8 @@ namespace YARG.Settings
                 new FieldMetadata(nameof(Settings.DisableGlobalBackgrounds), isAdvanced: true),
                 nameof(Settings.DisablePerSongBackgrounds),
                 new FieldMetadata(nameof(Settings.WaitForSongVideo), isAdvanced: true),
+                nameof(Settings.LiveVideoInputEnabled),
+                nameof(Settings.LiveVideoDeviceName),
 
                 new HeaderMetadata("Gameplay"),
                 new FieldMetadata(nameof(Settings.InputPollingFrequency), isAdvanced: true),

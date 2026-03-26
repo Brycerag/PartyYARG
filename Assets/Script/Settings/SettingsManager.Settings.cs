@@ -103,6 +103,9 @@ namespace YARG.Settings
             public ToggleSetting DisablePerSongBackgrounds { get; } = new(false);
             public ToggleSetting WaitForSongVideo          { get; } = new(true);
 
+            public ToggleSetting              LiveVideoInputEnabled { get; } = new(false);
+            public WebCamDeviceDropdownSetting LiveVideoDeviceName  { get; } = new();
+
 
             public SliderSetting InputPollingFrequency { get; } = new(250f, 60f, 1000f,
                 (value) => InputSystem.pollingFrequency = value

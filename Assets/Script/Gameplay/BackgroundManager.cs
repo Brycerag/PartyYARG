@@ -68,6 +68,7 @@ namespace YARG.Gameplay
 
         private BundleBackgroundManager _bundleBackgroundManager;
 
+        private WebCamTexture _liveWebCam;
 #if UNITY_EDITOR
         private bool        _usingEditorVenue;
         private string      _editorVenuePath;
@@ -158,6 +159,13 @@ namespace YARG.Gameplay
             }
 #endif
 
+            // Live video input — webcam, USB capture card, OBS Virtual Camera, etc.
+            if (SettingsManager.Settings.LiveVideoInputEnabled.Value)
+            {
+                LoadLiveVideoBackground();
+                return;
+            }
+
             using var result = VenueLoader.GetVenue(GameManager.Song, out _source);
             if (result == null)
             {
@@ -183,6 +191,50 @@ namespace YARG.Gameplay
                     _backgroundImage.gameObject.SetActive(true);
                     break;
             }
+        }
+
+        private void LoadLiveVideoBackground()
+        {
+            var deviceName = SettingsManager.Settings.LiveVideoDeviceName.Value;
+
+            // Resolve device by partial name match; fall back to first available.
+            string resolvedName = null;
+            var devices = WebCamTexture.devices;
+
+            if (!string.IsNullOrEmpty(deviceName))
+            {
+                foreach (var d in devices)
+                {
+                    if (d.name.IndexOf(deviceName, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        resolvedName = d.name;
+                        break;
+                    }
+                }
+            }
+
+            if (resolvedName == null && devices.Length > 0)
+            {
+                resolvedName = devices[0].name;
+            }
+
+            if (resolvedName == null)
+            {
+                YargLogger.LogWarning("[LiveVideo] No capture device found — skipping live video input.");
+                return;
+            }
+
+            _liveWebCam = new WebCamTexture(resolvedName);
+            _liveWebCam.Play();
+
+            _backgroundImage.texture = _liveWebCam;
+            _backgroundImage.uvRect = new Rect(0f, 0f, 1f, 1f);
+            _backgroundImage.gameObject.SetActive(true);
+
+            var colorDim = _backgroundDimmer.color.WithAlpha(1f - SettingsManager.Settings.SongBackgroundOpacity.Value);
+            _backgroundDimmer.color = colorDim;
+
+            YargLogger.LogFormatInfo("[LiveVideo] Started capture from: {0}", resolvedName);
         }
 
         private async UniTaskVoid LoadYarground(BackgroundResult result)
@@ -747,6 +799,13 @@ namespace YARG.Gameplay
 
         public void Dispose()
         {
+            if (_liveWebCam != null)
+            {
+                _liveWebCam.Stop();
+                UnityEngine.Object.Destroy(_liveWebCam);
+                _liveWebCam = null;
+            }
+
             if (VIDEO_PATH != null)
             {
                 File.Delete(VIDEO_PATH);
