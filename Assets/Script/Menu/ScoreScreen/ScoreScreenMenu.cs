@@ -27,6 +27,7 @@ using YARG.Helpers.Extensions;
 using YARG.Core.Engine;
 using YARG.Playback;
 using YARG.Settings;
+using YARG.Integration.PartyHero;
 
 namespace YARG.Menu.ScoreScreen
 {
@@ -403,20 +404,34 @@ namespace YARG.Menu.ScoreScreen
                 {
                     if (!_analyzingReplay)
                     {
-                        GlobalVariables.State.ShowIndex++;
-                        if (GlobalVariables.State.PlayingAShow &&
-                            GlobalVariables.State.ShowIndex < GlobalVariables.State.ShowSongs.Count)
+                        if (GlobalVariables.State.PlayingAShow)
                         {
-                            // Set CurrentSong to the next song, then go to the ready-up
-                            // interstitial so players and the live band can confirm ready
-                            // before gameplay starts.
-                            GlobalVariables.State.CurrentSong =
-                                GlobalVariables.State.ShowSongs[GlobalVariables.State.ShowIndex];
-                            GlobalVariables.Instance.LoadScene(SceneIndex.ReadyUp);
+                            SceneIndex nextScene;
+                            if (SetlistManager.Instance != null && SetlistManager.Instance.IsActive)
+                            {
+                                // Delegate to SetlistManager — handles songs, swaps, breaks, and show end.
+                                nextScene = SetlistManager.Instance.Advance();
+                            }
+                            else
+                            {
+                                // Legacy flat-list show progression fallback.
+                                GlobalVariables.State.ShowIndex++;
+                                if (GlobalVariables.State.ShowIndex < GlobalVariables.State.ShowSongs.Count)
+                                {
+                                    GlobalVariables.State.CurrentSong =
+                                        GlobalVariables.State.ShowSongs[GlobalVariables.State.ShowIndex];
+                                    nextScene = SceneIndex.ReadyUp;
+                                }
+                                else
+                                {
+                                    GlobalVariables.State.PlayingAShow = false;
+                                    nextScene = SceneIndex.Menu;
+                                }
+                            }
+                            GlobalVariables.Instance.LoadScene(nextScene);
                         }
                         else
                         {
-                            GlobalVariables.State.PlayingAShow = false;
                             GlobalVariables.Instance.LoadScene(SceneIndex.Menu);
                         }
                     }
@@ -424,6 +439,7 @@ namespace YARG.Menu.ScoreScreen
 
             _endEarlyButtonEntry = new NavigationScheme.Entry(MenuAction.Red, "Menu.ScoreScreen.EndSetlistEarly", () =>
             {
+                SetlistManager.Instance?.Reset();
                 GlobalVariables.State.PlayingAShow = false;
                 GlobalVariables.Instance.LoadScene(SceneIndex.Menu);
             });
@@ -526,7 +542,9 @@ namespace YARG.Menu.ScoreScreen
             buttons.Add(_showAdvancedButtonEntry);
 
             if (GlobalVariables.State.PlayingAShow &&
-                GlobalVariables.State.ShowIndex + 1 < GlobalVariables.State.ShowSongs.Count)
+                (SetlistManager.Instance != null && SetlistManager.Instance.IsActive
+                    ? SetlistManager.Instance.PeekNextEntry != null
+                    : GlobalVariables.State.ShowIndex + 1 < GlobalVariables.State.ShowSongs.Count))
             {
                 buttons.Insert(1, _endEarlyButtonEntry);
             }

@@ -23,6 +23,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ReadyUpScene.unity
     guid: a3e9f7d1c8b26045bd710e5f2db84c9a
+  - enabled: 1
+    path: Assets/Scenes/WaitingForSwapScene.unity
+    guid: b6dc43fb3d0a678964c29b8a2d57dbf9
+  - enabled: 1
+    path: Assets/Scenes/SetBreakScene.unity
+    guid: c7ed540c4e1b789a75d3ac9b3e68eca0
+  - enabled: 1
+    path: Assets/Scenes/ShowEndScene.unity
+    guid: d8fe651d5f2c89ab86e4bd0c4f79fdb1
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 1d91d74c53e2e92468f3b6d5fcfa8bdf,
       type: 2}

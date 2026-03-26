@@ -483,6 +483,15 @@
             "Waiting"      : "Waiting for everyone...",
             "AllReady"     : "All Ready!"
         },
+        "WaitingForSwap": {
+            "ConfirmSwap": "Swap Ready"
+        },
+        "SetBreak": {
+            "SkipBreak": "Skip Break"
+        },
+        "ShowEnd": {
+            "ReturnToMenu": "Return to Menu"
+        },
         "Settings": {
             "ShowAdvanced": "Show Advanced",
             "HideAdvanced": "Hide Advanced",

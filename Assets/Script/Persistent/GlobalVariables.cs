@@ -27,7 +27,10 @@ namespace YARG
         Gameplay,
         Calibration,
         Score,
-        ReadyUp
+        ReadyUp,
+        WaitingForSwap,
+        SetBreak,
+        ShowEnd,
     }
 
     [DefaultExecutionOrder(-5000)]
