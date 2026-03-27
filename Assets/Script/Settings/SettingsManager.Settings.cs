@@ -106,6 +106,8 @@ namespace YARG.Settings
             public ToggleSetting              LiveVideoInputEnabled { get; } = new(false);
             public WebCamDeviceDropdownSetting LiveVideoDeviceName  { get; } = new();
 
+            public void RefreshAllDevices() => SettingsManager.RequestHardwareRefresh();
+
 
             public SliderSetting InputPollingFrequency { get; } = new(250f, 60f, 1000f,
                 (value) => InputSystem.pollingFrequency = value

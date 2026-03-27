@@ -44,6 +44,7 @@ namespace YARG.Settings
                 new FieldMetadata(nameof(Settings.WaitForSongVideo), isAdvanced: true),
                 nameof(Settings.LiveVideoInputEnabled),
                 nameof(Settings.LiveVideoDeviceName),
+                new ButtonRowMetadata(nameof(Settings.RefreshAllDevices)),
 
                 new HeaderMetadata("Gameplay"),
                 new FieldMetadata(nameof(Settings.InputPollingFrequency), isAdvanced: true),
@@ -349,6 +350,23 @@ namespace YARG.Settings
             {
                 throw new Exception($"The method `{name}` does not exist.");
             }
+        }
+
+        /// <summary>
+        /// Fired when hardware device lists (webcam, MIDI) should be re-enumerated.
+        /// <see cref="SettingsMenu"/> subscribes to this and calls
+        /// <c>RefreshAndKeepPosition()</c>, which rebuilds the current tab's visuals.
+        /// </summary>
+        public static event Action HardwareRefreshRequested;
+
+        /// <summary>
+        /// Refreshes all hardware device lists and triggers a UI rebuild of the
+        /// currently open settings tab so dropdowns reflect any newly connected devices.
+        /// </summary>
+        public static void RequestHardwareRefresh()
+        {
+            Settings.LiveVideoDeviceName.Refresh();
+            HardwareRefreshRequested?.Invoke();
         }
 
         public static Tab GetTabByName(string name)

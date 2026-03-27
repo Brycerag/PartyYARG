@@ -30,6 +30,7 @@ namespace YARG.Settings.Metadata
     {
         // ── Cached Addressable prefabs ────────────────────────────────────
         private static GameObject _headerPrefab;
+        private static GameObject _buttonPrefab;
 
         // ── Live settings reference ───────────────────────────────────────
         private PartyHeroSettings _cfg;
@@ -64,6 +65,7 @@ namespace YARG.Settings.Metadata
 
             // ─── MIDI Input ───────────────────────────────────────────────
             SpawnHeader("MidiInput", container);
+            SpawnRefreshButton(container, navGroup);
 
             AddToggle("PartyYARG.MidiEnabled",
                 _cfg.MidiEnabled, v => _cfg.MidiEnabled = v,
@@ -188,6 +190,24 @@ namespace YARG.Settings.Metadata
             var go = UnityEngine.Object.Instantiate(_headerPrefab, container);
             go.GetComponentInChildren<TextMeshProUGUI>().text =
                 Localize.Key("Settings.Header", headerName);
+        }
+
+        private static void SpawnRefreshButton(Transform container, NavigationGroup navGroup)
+        {
+            if (_buttonPrefab == null)
+            {
+                _buttonPrefab = Addressables
+                    .LoadAssetAsync<GameObject>("SettingTab/Button")
+                    .WaitForCompletion();
+            }
+
+            var go = UnityEngine.Object.Instantiate(_buttonPrefab, container);
+            var settingsButton = go.GetComponent<SettingsButton>();
+            settingsButton.SetCustomButtons(new[]
+            {
+                new SettingsButton.CustomButton("RefreshAllDevices", SettingsManager.RequestHardwareRefresh)
+            }, localize: true, localizationKey: "Settings.Button");
+            navGroup.AddNavigatable(settingsButton);
         }
 
         private void AddToggle(string name, bool value, Action<bool> setter,

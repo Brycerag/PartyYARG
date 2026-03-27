@@ -37,5 +37,22 @@ namespace YARG.Settings.Types
         // Called by the base ctor before WebCamTexture is accessible in this
         // constructor body — intentionally left empty; population happens above.
         public override void UpdateValues() { }
-    }
+        /// <summary>
+        /// Re-enumerates capture devices. Call this when the user plugs in a new
+        /// device after the game has booted. The current selection is preserved if
+        /// the device is still present; otherwise it falls back to "".
+        /// </summary>
+        public void Refresh()
+        {
+            var previous = _value;
+            _possibleValues.Clear();
+            _possibleValues.Add("");
+
+            foreach (var device in WebCamTexture.devices)
+            {
+                _possibleValues.Add(device.name);
+            }
+
+            _value = _possibleValues.Contains(previous) ? previous : "";
+        }    }
 }

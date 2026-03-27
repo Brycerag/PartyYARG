@@ -941,7 +941,8 @@
             "AddFolder": "Add Folder",
             "RefreshCache": "Scan Songs",
             "OpenExecutablePath": "Open Executable Path",
-            "OpenPersistentDataPath": "Open Persistent Data Path"
+            "OpenPersistentDataPath": "Open Persistent Data Path",
+            "RefreshAllDevices": "Refresh Devices"
         },
         "Setting": {
             "AllowDuplicateSongs": {

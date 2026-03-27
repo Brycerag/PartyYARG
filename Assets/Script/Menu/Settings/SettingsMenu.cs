@@ -128,6 +128,7 @@ namespace YARG.Menu.Settings
             _headerTabs.TabChanged += OnTabChanged;
 
             _settingsNavGroup.SelectionChanged += OnSelectionChanged;
+            SettingsManager.HardwareRefreshRequested += RefreshAndKeepPosition;
 
             // Set navigation scheme
             PushNavigationScheme();
@@ -401,6 +402,7 @@ namespace YARG.Menu.Settings
             _headerTabs.TabChanged -= OnTabChanged;
 
             _settingsNavGroup.SelectionChanged -= OnSelectionChanged;
+            SettingsManager.HardwareRefreshRequested -= RefreshAndKeepPosition;
 
             // Save on close
             SettingsManager.SaveSettings();
